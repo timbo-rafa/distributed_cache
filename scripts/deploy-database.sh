@@ -24,21 +24,21 @@ docker run --name ca-node1 -d \
 CA_CLUSTER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ca-cluster)
 CA_NODE1_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ca-node1)
 
-echo -n "Waiting for ca-cluster to be ready"
+echo -n "Waiting for ca-cluster to be ready."
 until curl $CA_CLUSTER_IP:8091 >/dev/null 2>&1
 do
   echo -n "."
   sleep 1s
 done
-echo "ready!"
+echo -e "\nca-cluster ready!"
 
-echo -n "Waiting for ca-node1 to be ready"
+echo -n "Waiting for ca-node1 to be ready."
 until curl $CA_NODE1_IP:8091 >/dev/null 2>&1
 do
   echo -n "."
   sleep 1s
 done
-echo "ready!"
+echo -e "\nca-node1 ready!"
 
 echo "Starting ca-cluster's database"
 docker exec ca-cluster \
@@ -75,21 +75,21 @@ docker run --name br-node1 -d \
 BR_CLUSTER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' br-cluster)
 BR_NODE1_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' br-node1)
 
-echo -n "Waiting for br-cluster to be ready"
+echo -n "Waiting for br-cluster to be ready."
 until curl $BR_CLUSTER_IP:8091 >/dev/null 2>&1
 do
   echo -n "."
   sleep 1s
 done
-echo "ready!"
+echo -e "\nbr-cluster ready!"
 
-echo -n "Waiting for br-node1 to be ready"
+echo -n "Waiting for br-node1 to be ready."
 until curl $BR_NODE1_IP:8091 >/dev/null 2>&1
 do
   echo -n "."
   sleep 1s
 done
-echo "ready!"
+echo -e "\nbr-node1 ready!"
 
 echo "Starting br-cluster's database"
 docker exec br-cluster \
