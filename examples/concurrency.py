@@ -1,20 +1,20 @@
 from threading import Thread
 from geo_cache_client.cache_client import Cache
 
-
 def count(n, name):
     cache = Cache(name="example")
 
     response = cache.get("acc")
     while (n > 0):
-        if response.get("error") is not None:
+        if not response.ok:
             response = cache.get("acc")
-        if response.get("error") is None:
+        if response.ok:
             #print("{name}.get: {item}".format(name=name, item=response))
-            response = cache.set("acc", int(response["value"]) + 1, response["cas"])
-            if response.get("error") is None:
+            item = response.json()
+            response = cache.set("acc", int(item["value"]) + 1, item["cas"])
+            if response.ok:
                 n -= 1
-                print("{name}.set: {item}".format(name=name, item=response))
+                print("{name}.set: {item}".format(name=name, item=response.json()))
             else:
                 print("{name}.set: failed!".format(name=name))
     print("{name}: Exiting".format(name=name))
@@ -32,8 +32,11 @@ def concurrent_count():
     [t.join() for t in (t1,t2,t3)]
 
     print("All threads finished!")
-    acc = cache.get("acc")
+    acc = cache.get("acc").json()
     print("Final accumulator value: {value}".format(value=acc.get("value")))
 
-if __name__ == "__main__":
+def main():
     concurrent_count()
+
+if __name__ == "__main__":
+    main()

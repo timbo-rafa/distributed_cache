@@ -19,7 +19,7 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "example.py",
+            "name": "replication.py",
             "type": "python",
             "request": "launch",
             "program": "examples/replication.py",

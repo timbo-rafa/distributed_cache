@@ -30,10 +30,12 @@ class Cache:
             lat=lat,
             lon=lon)
 
-        response = requests.get(url, headers=self.headers).json()
-        if response.get("ip") != None:
-            self.api_host = response["ip"]
-            self.db_host = None
+        response = requests.get(url, headers=self.headers)
+        if response.ok:
+            ip = response.json().get("ip")
+            if ip is not None:
+                self.api_host = ip
+                self.db_host = None
 
     def get(self, key):
 
@@ -48,7 +50,7 @@ class Cache:
             params["databaseHost"] = self.db_host
 
         response = requests.get(url, headers=self.headers, params=params)
-        return response.json()
+        return response
     
     def set(self, key, value, cas=None):
         data = {
@@ -69,4 +71,4 @@ class Cache:
             params["databaseHost"] = self.db_host
         
         response = requests.post(url, headers=self.headers, params=params, json=data)
-        return response.json()
+        return response
