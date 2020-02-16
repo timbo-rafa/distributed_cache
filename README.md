@@ -46,20 +46,20 @@ To setup the demo back-end cluster, run:
     bash scripts/deploy-database.sh
     bash scripts/deploy-api.sh
 ```
+If you'd like to see a dashboard, couchbase provides one at http://localhost:8091/ui/index.html
 
-Then, to install the client:
+Next, to install the client:
 
 ```
 pip install geo-cache-client
 ```
 
 The programs under the folder `examples` provides some sample usage:
+
 ```bash
 python examples/replication.py
 python examples/concurrency.py
 ```
-
-Couchbase provides a dashboard at http://localhost:8091/ui/index.html
 
 # Solution 
 
