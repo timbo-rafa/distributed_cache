@@ -35,9 +35,9 @@ def main():
 
     print('Saving "my_item":', item)
     response1 = cache.set("my_item", item)
-    print(response1.json())
+    print(response1)
 
-    retrieved_item = cache.get("my_item").json()
+    retrieved_item = cache.get("my_item")
     print("Retrieved Item:")
     print(retrieved_item)
 
@@ -45,7 +45,7 @@ def main():
     if not xdcr_ip:
         return
     xdcr_cache = Cache(name="example", db_host=xdcr_ip)
-    xdcr_replica = xdcr_cache.get("my_item").json()
+    xdcr_replica = xdcr_cache.get("my_item")
     print("Retrieved XDCR replica from {xdcrip}:".format(xdcrip=xdcr_ip))
     print(xdcr_replica)
 
