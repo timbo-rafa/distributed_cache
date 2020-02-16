@@ -23,7 +23,10 @@ HOST_GEOLOCATION[CA_CLUSTER_IP] = {
         "lon": -79.3832
 }
 
-API_IP = socket.gethostbyname(socket.gethostname())
+# if running api outside docker,
+# you may get API_IP inside docker default network "172.17.xxx.xxx" with:
+# export API_IP=$(hostname -I | sed 's/ /\n/g' |  grep "172.17.")
+API_IP = os.environ.get('API_IP', socket.gethostbyname(socket.gethostname()))
 API_BY_DB = {}
 API_BY_DB[BR_CLUSTER_IP] = API_IP
 API_BY_DB[CA_CLUSTER_IP] = API_IP

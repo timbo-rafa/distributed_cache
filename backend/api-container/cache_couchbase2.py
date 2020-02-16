@@ -83,7 +83,9 @@ class CacheCouchbase2:
             print("xdcr_hosts not a dictionary. Ignoring")
             return
 
-        for xdcr_host in self.xdcr_hosts[self.host]:
+        xdcrs = self.xdcr_hosts.get(self.host)
+        xdcrs = xdcrs if xdcrs is not None else []
+        for xdcr_host in xdcrs:
             xdcr_cluster = Cluster('couchbase://' + xdcr_host)
             xdcr_cluster.authenticate(PasswordAuthenticator(self.username, self.password))
 
@@ -101,7 +103,9 @@ class CacheCouchbase2:
                 toBucket=self.name)
 
             # external > host
-            if self.host in self.xdcr_hosts[xdcr_host]:
+            r_xdcrs = self.xdcr_hosts.get(xdcr_host)
+            r_xdcrs = r_xdcrs if r_xdcrs is not None else []
+            if self.host in r_xdcrs:
                 createXDCR(
                     host=xdcr_host,
                     username=self.username,
@@ -114,7 +118,9 @@ class CacheCouchbase2:
         """Get item from cache.
         
         :param key: item key
-        :return: the value and cas of the item as a tuple.
+        :return: returns results object with properties: 'cas', 'value', 'rc'
+        'cas'(check and set), 'value', 'rc' (couchbase error code)
+        
         """
 
         result = self.bucket.get(key, replica=True, quiet=True)
@@ -126,6 +132,9 @@ class CacheCouchbase2:
         :param key: item key.
         :param value: value of the item.
         :param cas: (optional) cas (Check and Set)
+        :return: returns results object with properties:
+        'cas'(check and set), 'value', 'rc' (couchbase error code)
+
         """
 
         result = self.bucket.upsert(key, value, cas)

@@ -3,7 +3,6 @@ import json
 import os
 from flask import request
 from flask_api import status
-#from cache_couchbase2 import CacheCouchbase2
 from cache_singleton import CacheSingleton
 from argparse import ArgumentParser
 import haversine
@@ -38,8 +37,10 @@ def get(name, key):
         response = {
             'key': key,
             'value': result.value,
-            'cas': result.cas
+            'cas': result.cas,
+            'rc': result.rc
         }
+
         return response
 
     except Exception as e:
@@ -76,6 +77,7 @@ def set(name, key):
             'cas': result.cas,
             'key': key,
             'value': value,
+            'rc': result.rc
         }
         
         return response, status.HTTP_201_CREATED
