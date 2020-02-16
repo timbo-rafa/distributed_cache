@@ -47,13 +47,14 @@ class Cache:
         if self.db_host:
             params["databaseHost"] = self.db_host
 
-        return requests.get(url, headers=self.headers, params=params)
+        response = requests.get(url, headers=self.headers, params=params)
+        return response.json()
     
     def set(self, key, value, cas=None):
         data = {
             "value": value
         }
-        if cas != None:
+        if cas is not None:
             data["cas"] = cas
 
 
@@ -67,4 +68,5 @@ class Cache:
         if self.db_host:
             params["databaseHost"] = self.db_host
         
-        return requests.post(url, headers=self.headers, params=params, json=data)
+        response = requests.post(url, headers=self.headers, params=params, json=data)
+        return response.json()
