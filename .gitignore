@@ -1,6 +1,5 @@
 .noseids
 nosetests.xml
-.vscode
 **/__pycache__
 build
 dist
