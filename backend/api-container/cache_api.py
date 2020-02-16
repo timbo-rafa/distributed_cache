@@ -36,6 +36,7 @@ def get(name, key):
     try:
         result = cache.get(key_prefix + key)
         response = {
+            'key': key,
             'value': result.value,
             'cas': result.cas
         }
@@ -72,7 +73,9 @@ def set(name, key):
     try:
         result = cache.set(key_prefix + key, value, cas)
         response = {
-            'cas': result.cas
+            'cas': result.cas,
+            'key': key,
+            'value': value,
         }
         
         return response, status.HTTP_201_CREATED
