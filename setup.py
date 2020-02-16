@@ -4,14 +4,14 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="geo-distributed-cache", # Replace package name
-    version="0.0.1",
+    name="geo-cache-client", # Replace package name
+    version="0.1.0",
     author="Rafael",
     author_email="timbo.rafa@gmail.com",
-    description="A distributed cache",
+    description="A geo distributed cache",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/timbo-rafa/geo-distributed-cache",
+    url="https://github.com/timbo-rafa/geo-cache",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

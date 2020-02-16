@@ -1,10 +1,17 @@
 # !/bin/bash
 #
 
-# UNSAFE!!
-# TODO: ERASE LATER
-CB_REST_USERNAME="Administrator"
-CB_REST_PASSWORD="password"
+# Please set username and password
+# before calling this script
+if [ -z "$CB_REST_USERNAME" ]; then
+  echo '$CB_REST_USERNAME not set, defaulting to "Administrator" for demo.'
+  CB_REST_USERNAME="Administrator"
+fi
+
+if [ -z "$CB_REST_PASSWORD" ]; then
+echo '$CB_REST_PASSWORD not set, defaulting to "password" for demo.'
+  CB_REST_PASSWORD="password"
+fi
 
 set -e
 

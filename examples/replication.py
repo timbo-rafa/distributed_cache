@@ -1,4 +1,4 @@
-from client.cache_client import Cache
+from geo_cache_client import Cache
 import os
 import subprocess
 import time

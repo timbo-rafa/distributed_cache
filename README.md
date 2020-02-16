@@ -45,6 +45,8 @@ To setup the demo back-end cluster, run:
 ```bash
     git clone https://github.com/timbo-rafa/geo-distributed-cache
     cd geo-distributed-cache
+    export CB_REST_USERNAME="Administrator"
+    export CB_REST_PASSWORD="password"
     bash scripts/deploy-database.sh
     bash scripts/deploy-api.sh
 ```
@@ -52,7 +54,7 @@ To setup the demo back-end cluster, run:
 Then, to install the client:
 
 ```
-pip install distributed-cache-client
+pip install geo-cache-client
 ```
 
 `example.py` provides some simple usage.

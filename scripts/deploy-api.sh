@@ -5,4 +5,4 @@ docker run -d --name cache_api \
     -p 5000:5000 \
     -e CA_CLUSTER_IP=$CA_CLUSTER_IP \
     -e BR_CLUSTER_IP=$BR_CLUSTER_IP \
-    timborafa/distributed-cache-api 
+    timborafa/geo-cache-api 

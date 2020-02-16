@@ -1,5 +1,5 @@
 from threading import Thread
-from client.cache_client import Cache
+from geo_cache_client.cache_client import Cache
 
 
 def count(n, name):
@@ -33,7 +33,7 @@ def concurrent_count():
 
     print("All threads finished!")
     acc = cache.get("acc")
-    print("Final accumulator value:{value}".format(value=acc.get("value")))
+    print("Final accumulator value: {value}".format(value=acc.get("value")))
 
 if __name__ == "__main__":
     concurrent_count()
