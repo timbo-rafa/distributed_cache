@@ -43,8 +43,8 @@ For the sake of simplicity, credentials are the same for all clusters and nodes,
 To setup the demo back-end cluster, run:
 
 ```bash
-    git clone this
-    cd distributed_cache
+    git clone https://github.com/timbo-rafa/geo-distributed-cache
+    cd geo-distributed-cache
     bash scripts/deploy-database.sh
     bash scripts/deploy-api.sh
 ```
@@ -52,7 +52,7 @@ To setup the demo back-end cluster, run:
 Then, to install the client:
 
 ```
-pip install rtimbo-cache
+pip install distributed-cache-client
 ```
 
 `example.py` provides some simple usage.
