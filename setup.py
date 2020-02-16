@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="geo-cache-client", # Replace package name
-    version="0.1.0",
+    version="0.1.1",
     author="Rafael",
     author_email="timbo.rafa@gmail.com",
     description="A geo distributed cache",
