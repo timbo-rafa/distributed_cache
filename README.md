@@ -1,50 +1,46 @@
 
 # Geo Distributed LRU Cache
 
-## Solution
-
-In order to quickly come up with a scalable enterprise-level library, the optimal approach is to delegate as much features as we can to an already existing software package and use it as an underlying architecture.
-
-Upon researching current technologies available, an ideal software seemed to be the [Couchbase Server](https://docs.couchbase.com/server/6.5/introduction/intro.html), a distributed multi-model NoSQL document-oriented database. Amongst the key features we have high availability, scale-out architecture, and a memory-first architecture, which is ideal for caches. Essential requirements for our application are detailed below on the section [Features](#Features).
-
-Couchbase stores data through a concept [Buckets](https://docs.couchbase.com/server/6.5/learn/buckets-memory-and-storage/buckets-memory-and-storage.html).
-
->Couchbase Server keeps items in Buckets. Before an item can be saved, a bucket must exist for it. Each bucket is assigned a name at its creation: this name is referenced by the application or user wishing to save or access items within it.
-
 ## Dependencies (server)
 This application heavily relies on
 [Docker](https://docs.docker.com/install/)
 for speedy installation and deployment. All the dependencies are already met if you use the provided docker containers.
 
-However, if you are unable to use Docker, please install the following dependencies:
+However, if you are unable to use Docker, the server has the following dependencies:
 
-1. [Python](https://www.python.org/downloads/) v3.7
-2. [Couchbase Server](https://www.couchbase.com/downloads) 6.5.0 Enterprise
-2. [Couchbase C Client](https://docs.couchbase.com/c-sdk/2.10/start-using-sdk.html) v2.10.5
-3. [Couchbase Python Client](https://docs.couchbase.com/python-sdk/current/start-using-sdk.html) v.2.9.5
+1. Database
+   
+    1. [Couchbase Server](https://www.couchbase.com/downloads) 6.5.0 Enterprise
+2. API
+   
+   1. [Python](https://www.python.org/downloads/) v3.7
+   
+   2. [Couchbase C Client](https://docs.couchbase.com/c-sdk/2.10/start-using-sdk.html) v2.10.5
 
-You can also check the Dockerfile scripts for installation steps.
+   3. [Couchbase Python Client](https://docs.couchbase.com/python-sdk/current/start-using-sdk.html) v.2.9.5
+
+You can also check the Dockerfile scripts under `backend/` for installation steps.
 
 ## Dependencies (client)
 
 ```python
-pip install rtimbo-cache
+pip install geo-cache-client
 ```
-Alternatively, you can make http requests as described in `cache_client.py`
+Alternatively, you can make http requests as described in `geo_cache_client/cache_client.py`
 
 ## Installation (demo)
 
 In an enterprise production environment, the different components of this application are likely to be deployed in different nodes and possibly machines. The final deployment is dependant on the back-end architecture and DevOps of a company. For demo purposes, we provide a sample application in which all components run under the same machine, as a starting point for developers.
 
-For the sake of simplicity, credentials are the same for all clusters and nodes, geolocations are stored in the settings, and we use docker to get the proper IPs. In a production environment, that information could be processed differently.
-
+To keep things simple, credentials are the same for all clusters and nodes, geolocations are stored in the settings, and we use docker to get the proper IPs. In a production environment, this kind of information could be processed differently.
 
 
 To setup the demo back-end cluster, run:
 
 ```bash
-    git clone https://github.com/timbo-rafa/geo-distributed-cache
-    cd geo-distributed-cache
+    git clone https://github.com/timbo-rafa/geo-cache
+    cd geo-cache
+    # set credentials
     export CB_REST_USERNAME="Administrator"
     export CB_REST_PASSWORD="password"
     bash scripts/deploy-database.sh
@@ -57,14 +53,30 @@ Then, to install the client:
 pip install geo-cache-client
 ```
 
-`example.py` provides some simple usage.
+The programs under the folder `examples` provides some sample usage:
+```bash
+python examples/replication.py
+python examples/concurrency.py
+```
+
+Couchbase provides a dashboard at http://localhost:8091/ui/index.html
+
+# Solution 
+
+In order to quickly come up with a scalable enterprise-level library, the optimal approach is to delegate as much features as we can to an already existing software package and use it as an underlying architecture.
+
+Upon researching current technologies available, an ideal software seemed to be the [Couchbase Server](https://docs.couchbase.com/server/6.5/introduction/intro.html), a distributed multi-model NoSQL document-oriented database. Amongst the key features we have high availability, scale-out architecture, and a memory-first architecture, which is ideal for caches. Essential requirements for our application are detailed below on the section [Features](#Features).
+
+Couchbase stores data through a concept [Buckets](https://docs.couchbase.com/server/6.5/learn/buckets-memory-and-storage/buckets-memory-and-storage.html).
+
+>Couchbase Server keeps items in Buckets. Before an item can be saved, a bucket must exist for it. Each bucket is assigned a name at its creation: this name is referenced by the application or user wishing to save or access items within it.
 
 ## Features
 
 ### 1 - Simple integration
 
 ```
-pip install rtimbo-cache
+pip install geo-cache-client
 ```
 
 ### 2 - Resilient to network failures and crashes
@@ -135,15 +147,11 @@ Please see
 Couchbase default ejection policy for persistent storage is `valueOnly`, which keeps only keys in memory. With that in mind, memory eviction uses a simplified version of LRU,
 [not recently used (NRU)](https://docs.couchbase.com/server/4.1/architecture/db-engine-architecture.html#not-recently-used-nru-items).
 
-
-
-
 ## Future Improvements
 
 1. Fine-grained credentials
 2. Geolocation processing
-3. Add container-orchestration system (kubernetes)
-4. Non-default cb port
-5. `settings.py` for cache_couchbase
-6. Check if node is up before returning closest
-7. Select fastest ping db cluster instead of closest (?)
+3. Non-default cb port
+4. `settings.py` for cache_couchbase
+5. Check if node is up before returning closest
+6. Select fastest ping db cluster instead of closest (?)
