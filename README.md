@@ -30,10 +30,9 @@ Alternatively, you can make http requests as described in `geo_cache_client/cach
 
 ## Installation (demo)
 
-In an enterprise production environment, the different components of this application are likely to be deployed in different nodes and possibly machines. The final deployment is dependant on the back-end architecture and DevOps of a company. For demo purposes, we provide a sample application in which all components run under the same machine, as a starting point for developers.
+In an enterprise production environment, the different components of this application are likely to be deployed in different nodes and possibly different machines. The final deployment is therefore dependant on the back-end architecture and DevOps of such company. For demo purposes, we provide a sample application in which all components run under the same machine, as a starting point for developers.
 
-To keep things simple, credentials are the same for all clusters and nodes, geolocations are stored in the settings, and we use docker to get the proper IPs. In a production environment, this kind of information could be processed differently.
-
+To keep things simple, credentials are the same for all clusters and nodes, geolocations are stored in the settings, and we use docker to get the proper IPs. In a real environment, this kind of information could be processed differently.
 
 To setup the demo back-end cluster, run:
 
@@ -46,7 +45,7 @@ To setup the demo back-end cluster, run:
     bash scripts/deploy-database.sh
     bash scripts/deploy-api.sh
 ```
-If you'd like to see a dashboard, couchbase provides one at http://localhost:8091/ui/index.html
+If you'd like to see the database dashboard, couchbase provides one at http://localhost:8091/ui/index.html
 
 Next, to install the client:
 
@@ -65,11 +64,14 @@ python examples/concurrency.py
 
 In order to quickly come up with a scalable enterprise-level library, the optimal approach is to delegate as much features as we can to an already existing software package and use it as an underlying architecture.
 
-Upon researching current technologies available, an ideal software seemed to be the [Couchbase Server](https://docs.couchbase.com/server/6.5/introduction/intro.html), a distributed multi-model NoSQL document-oriented database. Amongst the key features we have high availability, scale-out architecture, and a memory-first architecture, which is ideal for caches. Essential requirements for our application are detailed below on the section [Features](#Features).
+Upon researching current technologies available, an ideal software seems to be the [Couchbase Server](https://docs.couchbase.com/server/6.5/introduction/intro.html), a distributed multi-model NoSQL document-oriented database. Amongst the key features we have high availability, scale-out architecture, and a memory-first architecture, the ideal scenario for our cache. Essential requirements for our application are detailed below on the section [Features](#Features).
 
-Couchbase stores data through a concept [Buckets](https://docs.couchbase.com/server/6.5/learn/buckets-memory-and-storage/buckets-memory-and-storage.html).
+Couchbase stores data through a concept
+[Buckets](https://docs.couchbase.com/server/6.5/learn/buckets-memory-and-storage/buckets-memory-and-storage.html),
 
 >Couchbase Server keeps items in Buckets. Before an item can be saved, a bucket must exist for it. Each bucket is assigned a name at its creation: this name is referenced by the application or user wishing to save or access items within it.
+
+This is how we store data in our application.
 
 ## Features
 
@@ -81,7 +83,7 @@ pip install geo-cache-client
 
 ### 2 - Resilient to network failures and crashes
 
-These are achieved through 4 properties:
+Resiliency is achieved through 4 properties:
 
 ##### Data replication (within a cluster)
 
@@ -90,7 +92,7 @@ These are achieved through 4 properties:
 On bucket creation (or editing), it is possible to set the number of replicas.
 For our demo, we set `--bucket-replica 1`.
 
-See
+For more information, please see
 [bucket-create](https://docs.couchbase.com/server/6.5/cli/cbcli/couchbase-cli-bucket-create.html)
 or
 [bucket-edit](https://docs.couchbase.com/server/6.5/cli/cbcli/couchbase-cli-bucket-edit.html).
@@ -98,6 +100,8 @@ or
 ##### Data persistence
 Couchbase buckets are written to disk by setting `--bucket-type couchbase`.
 For more information, please see [bucket-create](https://docs.couchbase.com/server/6.5/cli/cbcli/couchbase-cli-bucket-create.html).
+
+Data replication and persistence prevents our system from losing data in case of node crashes or failures.
 
 ##### Automatic failover
 
@@ -112,6 +116,7 @@ and
 
 [Cross Data Center Replication (XDCR)](https://docs.couchbase.com/server/6.5/manage/manage-xdcr/xdcr-management-overview.html)
 allows us to continuously replicate data from a bucket on one cluster to another bucket in another cluster, possibly located in another geolocation.
+This makes our system still able to deliver and even more fault-tolerant, should a data center become unavailable.
 
 ### 3 - Near real time replication of data across Geolocation. Writes need to be in real time.
 
@@ -123,13 +128,13 @@ Achieved through
 [XDCR](https://docs.couchbase.com/server/6.5/manage/manage-xdcr/xdcr-management-overview.html).
 You can assure consistency by passing the 
 [CAS](https://docs.couchbase.com/server/4.1/developer-guide/cas-concurrency.html)
-value from a previous operation to a `cache.set` assignment.
+value from a previous operation to a `cache.set` operation.
 
 ### 5 - Locality of reference, data should almost always be available from the closest region
 
 Supported with
 [XDCR](https://docs.couchbase.com/server/6.5/manage/manage-xdcr/xdcr-management-overview.html).
-You can connect to the closest server by using  `GET /closest/<lat>/<long>`
+You can connect to the closest server by using  `GET /closest/<lat>/<long>`. This ensures that data will first be written to and read from the closest region.
 
 ### 6 - Flexible Schema
 
@@ -140,7 +145,9 @@ Additionally, couchbase is a NoSQL document-oriented database and also has flexi
 ### 7 - Cache can expire
 On bucket creation or editing, we can specify the maximum TTL (time-to-live) for all documents in a bucket in seconds.
 
-Please see
+You can set the environment variable `CB_TTL` on the cache api to set the TTL of data.
+
+For more information, please see
 [bucket-create](https://docs.couchbase.com/server/6.5/cli/cbcli/couchbase-cli-bucket-create.html).
 ### 8 - LRU
 
