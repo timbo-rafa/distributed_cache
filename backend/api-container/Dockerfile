@@ -5,4 +5,4 @@ COPY . .
 RUN pip3 install -r requirements.txt
 
 ENTRYPOINT [ "python3", "waitress_server.py"]
-EXPOSE 5000
+EXPOSE 5000 8091

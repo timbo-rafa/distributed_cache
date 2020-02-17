@@ -2,6 +2,6 @@ FROM ubuntu:disco
 
 WORKDIR /app
 COPY . .
-RUN ./build-container-from-source.sh
+RUN ./build-container.sh
 
-#EXPOSE 8091 8092 8093 8094 11210
+EXPOSE 8091
