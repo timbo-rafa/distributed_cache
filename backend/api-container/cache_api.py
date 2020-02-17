@@ -24,6 +24,12 @@ def ping():
 
 @app.route('/api/<name>/<key>', methods=['GET'])
 def get(name, key):
+    """Cache get operation.
+    
+    :param name: name of the app, used to partition the cache memory space.
+    :param key: key of the cache item to be retrieved.
+    :return: the item with its cas, or an error.
+    """
     cb_host = request.args.get('databaseHost')
 
     cache = CacheSingleton.get(name=app_prefix + name,
@@ -52,6 +58,13 @@ def get(name, key):
 
 @app.route('/api/<name>/<key>', methods=['POST'])
 def set(name, key):
+    """Cache set operation.
+    
+    :param name: name of the app, used to partition the cache memory space.
+    :param key: key of the cache item to be set.
+    :return: the item with its cas, or an error.
+    """
+
     cb_host = request.args.get('databaseHost')
     
     req = request.get_json()
@@ -91,6 +104,13 @@ def set(name, key):
 
 @app.route('/api/closest/<lat>/<lon>', methods=['GET'])
 def closest(lat, lon):
+    """Returns the API IP that is closest to the given location.
+    
+    :param lat: latitude of the client.
+    :param lon: longitude of the client.
+    :return: the closest API IP.
+    """
+    
     client_point = {
         'lat': float(lat),
         'lon': float(lon)
@@ -98,6 +118,7 @@ def closest(lat, lon):
 
     closest_ip = haversine.closest(settings.HOST_GEOLOCATION, client_point)
     closest_api_ip = settings.API_BY_DB[closest_ip]
+    
     return {
         'ip': closest_api_ip
     }

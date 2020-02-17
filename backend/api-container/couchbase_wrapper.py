@@ -7,6 +7,7 @@ class CouchbaseException(Exception):
     pass
 
 # Couchbase Python API is missing max_ttl
+# https://docs.couchbase.com/server/current/rest-api/rest-bucket-create.html
 def createBucket(
     host,
     username,
@@ -37,6 +38,7 @@ def createBucket(
             raise CouchbaseException(response.text)
     return response
 
+# https://docs.couchbase.com/server/current/rest-api/rest-xdcr-create-replication.html
 def createXDCR(
         host,
         username,

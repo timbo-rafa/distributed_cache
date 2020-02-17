@@ -14,9 +14,7 @@ def get_docker_ip(container_name):
 
 def main():
     """Example that sets a simple item in the cache
-    and prints the retrieved item from the source cluster,
-    a replica from a node in the same cluster,
-    and a replica from an external cluster possibly
+    and prints the replica from an external cluster possibly
     in another data center in another location.
 
     For demo purposes, all these nodes are assumed to run in the same machine,
