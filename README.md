@@ -162,3 +162,4 @@ Couchbase default ejection policy for persistent storage is `valueOnly`, which k
 4. `settings.py` for cache_couchbase
 5. Check if node is up before returning closest
 6. Select fastest ping db cluster instead of closest (?)
+7. [Choose threading strategy](https://docs.couchbase.com/python-sdk/2.0/threads.html)
