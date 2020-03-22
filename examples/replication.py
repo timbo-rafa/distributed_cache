@@ -2,6 +2,7 @@ from geo_cache_client import Cache
 import os
 import subprocess
 import time
+import datetime
 
 def get_docker_ip(container_name):
     ip = None
@@ -28,7 +29,7 @@ def main():
     cache.set_closest_server(montreal["lat"], montreal["lon"])
 
     item = {
-        'foo': 'bar'
+        'time' : str(datetime.datetime.now())
     }
 
     print('Saving "my_item":', item)
