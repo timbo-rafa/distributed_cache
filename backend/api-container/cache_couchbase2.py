@@ -39,7 +39,13 @@ class CacheCouchbase2:
         self.ttl = ttl if ttl != None else os.environ.get('CB_TTL', 60*60*4)
         self.xdcr_hosts = xdcr_hosts
 
-        self.cluster = Cluster('couchbase://{host}:{port}'.format(host=host,port=port))
+        self.cluster = None
+        self.bucket = None
+
+        self.__connect()
+    
+    def __connect(self):
+        self.cluster = Cluster('couchbase://{host}:{port}'.format(host=self.host,port=self.port))
         self.cluster.authenticate(PasswordAuthenticator(self.username, self.password))
 
         self.__bucket_create(self.cluster, self.host, sync=True)
