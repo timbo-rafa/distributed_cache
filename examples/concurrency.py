@@ -5,7 +5,7 @@ def count(n, name):
     cache = Cache(name="example")
 
     response = cache.get("acc")
-    while (n > 0):
+    while n > 0:
         if not response.ok:
             response = cache.get("acc")
         if response.ok:
