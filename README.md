@@ -1,6 +1,19 @@
 
 # Geo Distributed LRU Cache
 
+## Solution
+
+In order to quickly come up with a scalable enterprise-level library, the optimal approach is to delegate as much features as we can to an already existing software package and use it as an underlying architecture.
+
+After researching current technologies available, an ideal technology seems to be the [Couchbase Server](https://docs.couchbase.com/server/6.5/introduction/intro.html), a distributed multi-model NoSQL document-oriented database. Amongst the key features we have high availability, scale-out architecture, and a memory-first architecture, the ideal scenario for our cache. Essential requirements for our application are detailed below on the section [Features](#Features).
+
+Couchbase stores data through a concept
+[Buckets](https://docs.couchbase.com/server/6.5/learn/buckets-memory-and-storage/buckets-memory-and-storage.html),
+
+>Couchbase Server keeps items in Buckets. Before an item can be saved, a bucket must exist for it. Each bucket is assigned a name at its creation: this name is referenced by the application or user wishing to save or access items within it.
+
+This is how we store data in our application. We access couchbase through its Python SDK and expose our API using Flask.
+
 ## Dependencies (server)
 This application heavily relies on
 [Docker](https://docs.docker.com/install/)
@@ -59,19 +72,6 @@ The programs under the folder `examples` provides some sample usage:
 python examples/concurrency.py
 python examples/replication.py
 ```
-
-# Solution 
-
-In order to quickly come up with a scalable enterprise-level library, the optimal approach is to delegate as much features as we can to an already existing software package and use it as an underlying architecture.
-
-Upon researching current technologies available, an ideal software seems to be the [Couchbase Server](https://docs.couchbase.com/server/6.5/introduction/intro.html), a distributed multi-model NoSQL document-oriented database. Amongst the key features we have high availability, scale-out architecture, and a memory-first architecture, the ideal scenario for our cache. Essential requirements for our application are detailed below on the section [Features](#Features).
-
-Couchbase stores data through a concept
-[Buckets](https://docs.couchbase.com/server/6.5/learn/buckets-memory-and-storage/buckets-memory-and-storage.html),
-
->Couchbase Server keeps items in Buckets. Before an item can be saved, a bucket must exist for it. Each bucket is assigned a name at its creation: this name is referenced by the application or user wishing to save or access items within it.
-
-This is how we store data in our application. We access couchbase through its Python SDK and expose our API using Flask.
 
 ## Features
 
