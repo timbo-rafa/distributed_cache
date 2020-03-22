@@ -56,8 +56,8 @@ pip install geo-cache-client
 The programs under the folder `examples` provides some sample usage:
 
 ```bash
-python examples/replication.py
 python examples/concurrency.py
+python examples/replication.py
 ```
 
 # Solution 
@@ -71,7 +71,7 @@ Couchbase stores data through a concept
 
 >Couchbase Server keeps items in Buckets. Before an item can be saved, a bucket must exist for it. Each bucket is assigned a name at its creation: this name is referenced by the application or user wishing to save or access items within it.
 
-This is how we store data in our application.
+This is how we store data in our application. We access couchbase through its Python SDK and expose our API using Flask.
 
 ## Features
 
