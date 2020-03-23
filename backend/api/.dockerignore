@@ -1,0 +1,5 @@
+.noseids
+__pycache__
+tests
+[Dd]ockerfile
+.dockerignore
