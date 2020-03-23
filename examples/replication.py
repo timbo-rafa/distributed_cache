@@ -48,5 +48,8 @@ def main():
     print("Retrieved XDCR replica from {xdcrip}:".format(xdcrip=xdcr_ip))
     print(xdcr_replica)
 
+    if response == retrieved_item == xdcr_replica:
+        print("Item was replicated successfully!")
+
 if __name__ == "__main__":
     main()
