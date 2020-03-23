@@ -1,0 +1,12 @@
+{
+    //"python.testing.cwd": "backend/api-container",
+    "python.testing.nosetestArgs": [
+        "-x",
+        "-w",
+        "backend/api-container",
+        "tests",
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": true
+}

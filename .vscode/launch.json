@@ -36,7 +36,9 @@
                 "FLASK_DEBUG": "0",
                 "CA_CLUSTER_IP": "172.17.0.2",
                 "BR_CLUSTER_IP": "172.17.0.4",
-                "API_IP": "172.17.0.1"
+                "API_IP": "172.17.0.1",
+                //"CB_REST_USERNAME": "timbo",
+                //"CB_REST_PASSWORD": "qwert1234"
             },
             "args": [
                 "run",
