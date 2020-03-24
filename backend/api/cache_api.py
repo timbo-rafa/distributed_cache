@@ -43,6 +43,14 @@ def get(name, key):
                         xdcr_hosts=app.config["XDCR_HOSTS"])
 
     result = cache.get(key_prefix + key)
+
+    if result.rc is 13:
+        response = {
+            'key': key,
+            'rc': result.rc
+        }
+        return response, status.HTTP_404_NOT_FOUND
+
     response = {
         'key': key,
         'value': result.value,
